@@ -109,6 +109,7 @@ h2{
 .task-list-container{
   background-color: aqua;
   padding: 20px;
+  width: 100%;
 }
 
 .task-list-header{
@@ -148,7 +149,7 @@ h2{
   color: red;
 }
 
-@media (max-width: 570px) {
+@media (max-width: 648px) {
   .task-list-container{
     display: none;
   }

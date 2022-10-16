@@ -1,0 +1,156 @@
+/************************************************************reset*************************************************************/
+
+*{
+  margin:0;
+  padding:0;
+  
+}
+*,
+*::after,
+*::before{
+  box-sizing: border-box;
+}
+body{
+
+  padding: 10px;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+img, svg{
+  max-width: 100%;
+  display: block;
+}
+
+h1{
+  font-size: 60px;
+  font-weight: bold;
+}
+
+h2{
+  font-size: 40px;
+  font-weight: bold;
+}
+/************************************************************head content*************************************************************/
+
+.title-container, .head-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 60px;
+}
+
+.add-project, .clear-all{ 
+  padding: 0px 15px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  border: solid 1px black;
+  font-size: 30px;
+  width: 300px;
+}
+
+.add-project-input {
+  font-size: 20px;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.add-project-button, .clear-all{
+  cursor: pointer;
+}
+
+
+/************************************************************main content*************************************************************/
+
+.main-container{
+  display: flex;
+  gap: 60px;
+}
+
+/*****************************project listing content*/
+.project-list-container{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 250px;
+}
+
+.project-container{ 
+  font-size: 30px;
+  padding: 5px;
+  gap: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-container:hover{
+  background-color: aqua;
+  cursor: pointer;
+}
+
+.project-icons{
+  display: flex;
+  gap: 10px;
+  font-size: 15px;
+}
+
+
+.project-icons i:hover{
+  color: red;  
+}
+
+/***************************task listing content*/
+
+.task-list-container{
+  background-color: aqua;
+  padding: 20px;
+  width: 100%;
+}
+
+.task-list-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.task-create-button{
+  border: solid 1px;
+  padding: 5px;
+  border-radius: 20px;
+  background-color: blanchedalmond;
+  cursor: pointer;
+}
+
+.task-container{
+  background-color: rgb(167, 130, 201);
+  padding: 10px;
+}
+
+.task-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-icons{
+  display: flex;
+  justify-content: right;
+  gap: 20px;
+}
+
+.task-icons i:hover{
+  cursor: pointer;
+  color: red;
+}
+
+@media (max-width: 648px) {
+  .task-list-container{
+    display: none;
+  }
+}

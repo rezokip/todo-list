@@ -1,16 +1,11 @@
+import { cacheDom } from "./cachedom"
+import { renderProjects } from "./project.js"
+import * as projects from "./project.js"
 
 
-export class DomElement{
-  constructor(elementType,  parent, className){ 
-    this.name = document.createElement(elementType)
-    if(className){this.name.classList.add(className)}
-    if(parent){this.name.appendToParent = () => parent.appendChild(this.name)}
-    if(parent){this.name.appendToParent()}
-    return this.name    
-    }
-}
 
-
+renderProjects()
+console.log(projects)
 
 
 /*

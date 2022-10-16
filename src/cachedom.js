@@ -1,6 +1,14 @@
-import { DomElement } from "./index.js"
+export class DomElement{
+  constructor(elementType,  parent, className){ 
+    this.name = document.createElement(elementType)
+    if(className){this.name.classList.add(className)}
+    if(parent){this.name.appendToParent = () => parent.appendChild(this.name)}
+    if(parent){this.name.appendToParent()}
+    return this.name    
+    }
+}
 
-let cacheDom = (function(){
+let cacheDom =(function (){
   const content = document.querySelector('.content')
 
   const titleContainerEl = new DomElement( 'div',content, 'title-container', )
@@ -20,17 +28,12 @@ let cacheDom = (function(){
   const projectsContainerEl = new DomElement('div', mainContainerEl, 'projects-container', )
   const projectTitle = new DomElement('h2', projectsContainerEl, 'projects-title', )
   projectTitle.textContent = 'Projects'
-  const projectListContainerEl = new DomElement('div', projectsContainerEl, 'project-list-container', )
+  const projectListContainerEl = new DomElement('div', projectsContainerEl, 'project-list-container',)
 
 
   const taskListContainer = new DomElement('div', mainContainerEl, 'task-list-container')
-  const taskListHeader = new DomElement('div', taskListContainer, 'task-list-header')
-  const taskListTitle = new DomElement('h2', taskListHeader, 'task-list-title')
-  taskListTitle.textContent = 'Default'
-  const taskCreateButton = new DomElement('div', taskListHeader, 'task-create-button')
-  taskCreateButton.textContent = 'Create New Task'
-
-  const taskContainer = new DomElement('div', taskListContainer, 'task-container')
+  
+  /*const taskContainer = new DomElement('div', taskListContainer, 'task-container')
   const taskHeader = new DomElement('div', taskContainer, 'task-header')
   const taskName = new DomElement('h3', taskHeader, 'task-name')
   taskName.textContent = 'Task Title'
@@ -52,8 +55,8 @@ let cacheDom = (function(){
   let taskIconEdit = new DomElement('i', taskIcons, 'glyphicon-edit')
   taskIconEdit.classList.add('glyphicon')
   let taskIconTrash = new DomElement('i', taskIcons, 'fa-trash')
-  taskIconTrash.classList.add('fa')
-  return{projectListContainerEl, addProjectButtonEl, addProjectInputEl}
+  taskIconTrash.classList.add('fa')*/
+  return{projectListContainerEl, addProjectButtonEl, addProjectInputEl, clearAllEl,  taskListContainer}
 })()
 
-export{cacheDom}
+export {cacheDom}

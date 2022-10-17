@@ -1,25 +1,6 @@
 import {cacheDom, DomElement} from './cachedom.js'
 import { showProjectContent } from './add.js'
 
-
-/*let projects = [
-  {
-    projectName: 'Default',
-    tasks:[
-      {taskName: 'task1', description: 'taskdescription',},
-      {taskName: 'task2', description: 'taskdescription2'}, 
-    ]  
-  },
-  {
-    projectName: 'Fitness',
-    tasks:[
-      {taskName: 'task3', description: 'taskdescription3',},
-      {taskName: 'task4', description: 'taskdescription4'}, 
-    ]   
-  }
-]
-*/
-
 export class Project {
   constructor(projectName){
     this.tasks = []
@@ -32,19 +13,42 @@ export class Project {
 
 export let addNewProject = function(){
   if(cacheDom.addProjectInputEl.value){
-    let myProject = new Project(cacheDom.addProjectInputEl.value)
-    myProject.createTask('default', 'test', 'test')
-    projects.push(myProject)
-    cacheDom.addProjectInputEl.value = ''
-    console.log(projects)
+    pushNewProject()   
     renderProjects()
+     cacheDom.addProjectInputEl.value = ''
   }
   else{alert('please enter a Name')}  
 }
 
+export let pushNewProject = function(){
+  let newProject = new Project(cacheDom.addProjectInputEl.value)
+    projects.push(newProject)
+}
+
+
+export let renderProjects = function(){
+  console.log(projects)
+  cacheDom.projectListContainerEl.textContent = '' 
+  for (let project of projects){  
+    let index = projects.indexOf(project) 
+    let newProject = new DomElement('div', cacheDom.projectListContainerEl, 'project-container')    
+    newProject.dataset.id = index
+    let newProjectP = new DomElement('p', newProject)
+    newProjectP.textContent = project.projectName
+    let newProjectIcons = new DomElement('div', newProject, 'project-icons')
+    let newProjectIconEye = new DomElement('i', newProjectIcons, 'fa-eye')
+    newProjectIconEye.classList.add('fa')
+    newProjectIconEye.dataset.id = index  
+    newProjectIconEye.addEventListener('click', showProjectContent)
+    let newProjectIconTrash = new DomElement('i', newProjectIcons, 'fa-trash')
+    newProjectIconTrash.classList.add('fa') 
+    newProjectIconTrash.dataset.id = index  
+    newProjectIconTrash.addEventListener('click', deleteProject)  
+  }   
+}
+
 
 export let deleteProject = function(){
-  console.log(this.dataset.id)
   projects.splice(this.dataset.id, 1)
   renderProjects()
 }
@@ -56,6 +60,15 @@ export let clearAllProjects = function(){
 }
 
 
+
+
+export let projects = []
+cacheDom.addProjectButtonEl.addEventListener('click', addNewProject)
+cacheDom.clearAllEl.addEventListener('click', clearAllProjects)
+
+
+
+/*
 export let createProjectsDom = function(){
   for (let project of projects){  
     let index = projects.indexOf(project) 
@@ -82,13 +95,8 @@ export let renderProjects = function(){
   cacheDom.projectListContainerEl.textContent = '' 
   createProjectsDom() 
 }
+*/
 
-
-
-
-export let projects = []
-cacheDom.addProjectButtonEl.addEventListener('click', addNewProject)
-cacheDom.clearAllEl.addEventListener('click', clearAllProjects)
 
 
 

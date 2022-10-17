@@ -9,6 +9,7 @@ export class DomElement{
 }
 
 let cacheDom =(function (){
+
   const content = document.querySelector('.content')
 
   const titleContainerEl = new DomElement( 'div',content, 'title-container', )
@@ -29,10 +30,13 @@ let cacheDom =(function (){
   const projectTitle = new DomElement('h2', projectsContainerEl, 'projects-title', )
   projectTitle.textContent = 'Projects'
   const projectListContainerEl = new DomElement('div', projectsContainerEl, 'project-list-container',)
-
-
   const taskListContainer = new DomElement('div', mainContainerEl, 'task-list-container')
-  
+  const taskListHeader = new DomElement('div', taskListContainer, 'task-list-header')
+  const taskListBody = new DomElement('div', taskListContainer, 'task-list-body')
+
+  let titleInput = document.querySelector('.title-input')
+  let dateInput = document.querySelector('.date-input')
+  let descriptInput = document.querySelector('.descript-input')
   /*const taskContainer = new DomElement('div', taskListContainer, 'task-container')
   const taskHeader = new DomElement('div', taskContainer, 'task-header')
   const taskName = new DomElement('h3', taskHeader, 'task-name')
@@ -56,7 +60,7 @@ let cacheDom =(function (){
   taskIconEdit.classList.add('glyphicon')
   let taskIconTrash = new DomElement('i', taskIcons, 'fa-trash')
   taskIconTrash.classList.add('fa')*/
-  return{projectListContainerEl, addProjectButtonEl, addProjectInputEl, clearAllEl,  taskListContainer}
+  return{projectListContainerEl, addProjectButtonEl, addProjectInputEl, clearAllEl,  taskListContainer, taskListHeader, taskListBody, titleInput, dateInput, descriptInput}
 })()
 
 export {cacheDom}

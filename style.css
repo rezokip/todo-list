@@ -31,6 +31,7 @@ h2{
   font-size: 40px;
   font-weight: bold;
 }
+
 /************************************************************head content*************************************************************/
 
 .title-container, .head-container{
@@ -147,6 +148,40 @@ h2{
 .task-icons i:hover{
   cursor: pointer;
   color: red;
+}
+
+.form-container{
+  position: fixed;
+  top: 300px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 400px;
+  height: 400px;
+  gap: 30px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  background-color: grey;
+
+}
+
+.form-background{
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.adding-button{
+  border: solid;
+  display: inline-block;
+  cursor: pointer;
+  background-color: beige;
+  
 }
 
 @media (max-width: 648px) {

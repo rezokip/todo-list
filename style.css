@@ -176,12 +176,11 @@ h2{
   bottom: 0;
 }
 
-.adding-button{
+.adding-button, .change-button{
   border: solid;
   display: inline-block;
   cursor: pointer;
   background-color: beige;
-  
 }
 
 @media (max-width: 648px) {

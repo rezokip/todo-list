@@ -54,13 +54,21 @@ export let renderTasksContainer= function(){
       let taskIconTrash = new DomElement('i', taskIcons, 'fa-trash')
       taskIconTrash.classList.add('fa')
       taskIconTrash.dataset.id = index
-      taskIconTrash.addEventListener('click', deleteTask )
+      taskIconTrash.addEventListener('click', deleteTask)
     }
   }
 }
 
 
-// Function to show a Form field to get Inputs From the user
+// delete the task with the appropriate id
+let deleteTask = function(){
+  console.log('data id from delete task',this.dataset.id)
+  chosenProject.tasks.splice(this.dataset.id, 1)
+  renderTasksContainer()
+}
+
+
+// Render a form to create or edit a Task
 let renderForm = function(){
   document.querySelector('.form-container').style.display = 'flex'
   document.querySelector('.form-background').style.display = 'flex'  
@@ -68,24 +76,66 @@ let renderForm = function(){
   console.log(this)
   console.log(this.id)
   if(this.id === 'task_create_button'){
-    document.querySelector('.change-button').style.display = 'none'
-    document.querySelector('.adding-button').style.display = 'inline-block'
-    document.querySelector('.adding-button').addEventListener('click', addNewTask)
+    getFormToCreateTask()
   }
   else  {
     console.log(this.dataset.id)
     console.log(chosenProject.tasks[this.dataset.id])
-    currentTask = chosenProject.tasks[this.dataset.id]
-    cacheDom.titleInput.value = currentTask.name
-    cacheDom.dateInput.value = currentTask.date
-    cacheDom.descriptInput.value = currentTask.description
-    document.querySelector('.adding-button').style.display = 'none'
-    document.querySelector('.change-button').style.display = 'inline-block'
-    document.querySelector('.change-button').addEventListener('click', changeTask)
-    console.log(chosenProject, 'chosenproject from render form')
+    getFormToEditTask()
   }
 }
-    
+   
+
+// Get the fresh form without any input to add a new task
+let getFormToCreateTask = function(){
+  document.querySelector('.change-button').style.display = 'none'
+  document.querySelector('.adding-button').style.display = 'inline-block'
+  document.querySelector('.adding-button').addEventListener('click', addNewTask)
+}
+
+
+// Get the Edit Form with existing inputs based on the task to edit
+let getFormToEditTask = function(){
+  currentTask = chosenProject.tasks[this.dataset.id]
+  cacheDom.titleInput.value = currentTask.name
+  cacheDom.dateInput.value = currentTask.date
+  cacheDom.descriptInput.value = currentTask.description
+  document.querySelector('.adding-button').style.display = 'none'
+  document.querySelector('.change-button').style.display = 'inline-block'
+  document.querySelector('.change-button').addEventListener('click', changeTask)
+  console.log(chosenProject, 'chosenproject from render form')
+}
+
+
+
+// Get the Values from the user and create the task
+let addNewTask = function(){
+  console.log('getValue', chosenProject)    
+  if(!cacheDom.titleInput.value || !cacheDom.dateInput.value || !cacheDom.descriptInput.value){
+    alert('Please fill in completely')    
+  }
+  else{    
+    chosenProject.createTask(cacheDom.titleInput.value , cacheDom.dateInput.value, cacheDom.descriptInput.value)  
+    renderTasksContainer()
+    hideForm()
+  } 
+}
+
+// Get the Values from user and edit the Task
+let changeTask = function(){
+  if(!cacheDom.titleInput.value || !cacheDom.dateInput.value || !cacheDom.descriptInput.value){
+    alert('Please fill in completely')    
+  }
+  else{    
+    currentTask.name = cacheDom.titleInput.value
+    currentTask.date = cacheDom.dateInput.value 
+    currentTask.description = cacheDom.descriptInput.value
+    renderTasksContainer()
+    hideForm()
+  } 
+}
+
+
 
 // After getting Inputs hide the Form and set its values to null
 let hideForm = function(){
@@ -97,47 +147,3 @@ let hideForm = function(){
   document.querySelector('.content').style.opacity = '1'
 }
 
-
-// Get the Values from the user and create the task
-let addNewTask = function(){
-  console.log('getValue', chosenProject)    
-  let titleValue= cacheDom.titleInput.value
-  let dateValue = cacheDom.dateInput.value
-  let descriptValue = cacheDom.descriptInput.value
-  console.log(titleValue, dateValue, descriptValue)
-  if(!titleValue || !dateValue || !descriptValue){
-    alert('Please fill in completely')    
-  }
-  else{    
-    console.log(descriptValue, dateValue, titleValue)
-    chosenProject.createTask(titleValue, dateValue, descriptValue)  
-    renderTasksContainer()
-    hideForm()
-  } 
-}
-
-
-let changeTask = function(){
-  let titleValue= cacheDom.titleInput.value
-  let dateValue = cacheDom.dateInput.value
-  let descriptValue = cacheDom.descriptInput.value
-  console.log(titleValue, dateValue, descriptValue)
-  if(!titleValue || !dateValue || !descriptValue){
-    alert('Please fill in completely')    
-  }
-  else{    
-    console.log(descriptValue, dateValue, titleValue)
-    currentTask.name = titleValue
-    currentTask.date = dateValue
-    currentTask.description = descriptValue
-    renderTasksContainer()
-    hideForm()
-  } 
-}
-
-
-
-let deleteTask = function(){
-  chosenProject.tasks.splice(this.dataset.id)
-  renderTasksContainer()
-}

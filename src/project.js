@@ -1,9 +1,9 @@
 import {cacheDom, DomElement} from './cachedom.js'
-import { renderTasksHeader, renderTasksContainer,} from './add.js'
+import { renderTasksHeader, renderTasksContainer,} from './task.js'
 
 let chosenProject
 
-
+// class to create a project object containing tasks and name
 export class Project {
   constructor(projectName){
     this.tasks = []
@@ -41,6 +41,8 @@ export let renderProjects = function(){
     newProject.dataset.id = index
     let newProjectP = new DomElement('p', newProject)
     newProjectP.textContent = project.projectName
+    newProjectP.dataset.id = index
+    newProjectP.addEventListener('click', showProjectContent)
     let newProjectIcons = new DomElement('div', newProject, 'project-icons')
     let newProjectIconEye = new DomElement('i', newProjectIcons, 'fa-eye')
     newProjectIconEye.classList.add('fa')
@@ -54,8 +56,11 @@ export let renderProjects = function(){
 }
 
 
-// Function to show the Content of every individual Project 
+// Function to show the Content of every individual Project based on width of the site
 export let showProjectContent = function(){ 
+  if(this.classList.value==='fa-eye fa'){
+    hideProjectList()    
+  }
   chosenProject = projects[this.dataset.id]
   console.log('showProjectContent', chosenProject)
   renderTasksHeader()
@@ -63,6 +68,20 @@ export let showProjectContent = function(){
   console.log(chosenProject)
 }
 
+// (if width < 648px) hide the projects and show the tasks when clicking the eye icon 
+let hideProjectList = function(){
+  cacheDom.projectsContainerEl.classList.add('hide')
+  cacheDom.taskListContainer.classList.add('show');
+  cacheDom.backButton.classList.add('show')
+  cacheDom.backButton.addEventListener('click', showProjectList)
+}
+
+// the back button goes back to the projects and hides the tasks again
+let showProjectList = function(){
+  cacheDom.taskListContainer.classList.remove('show');
+  cacheDom.backButton.classList.remove('show')
+  cacheDom.projectsContainerEl.classList.remove('hide')
+}
 
 // splice the individual project from the array, reset the chosenProject and update the Dom with render-functions
 export let deleteProject = function(){

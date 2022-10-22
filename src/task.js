@@ -1,6 +1,8 @@
-import { chosenProject, projects, renderProjects} from "./project.js"
+import { createNewTask, chosenProject, renderProjects} from "./project.js"
 import { Project } from "./project.js"
 import { cacheDom, DomElement } from "./cachedom.js"
+import { saveMyProjects, projects } from "./index.js"
+
 
 
 
@@ -15,16 +17,15 @@ export let renderTasksHeader = function(){
     taskCreateButton.setAttribute('id', 'task_create_button')
     taskCreateButton.addEventListener('click', renderForm)
   } 
+  console.log(projects , 'projects from renderTasksHeader')
 }
 
 
 // get the tasks from the individual project and render every task as its own DOM Container
 export let renderTasksContainer= function(){ 
-  console.log('renderTaskContainer-chosenproject',chosenProject)
   cacheDom.taskListBody.textContent=''
   if(chosenProject!=''){
     for (let task of chosenProject.tasks){
-      console.log(task)
       let index = chosenProject.tasks.indexOf(task)
       let taskContainer = new DomElement('div', cacheDom.taskListBody, 'task-container')
       let taskHeader = new DomElement('div', taskContainer, 'task-header')
@@ -56,14 +57,16 @@ export let renderTasksContainer= function(){
       taskIconTrash.addEventListener('click', deleteTask)
     }
   }
+  saveMyProjects()
+  console.log(projects , 'projects from renderTasksContainer')
 }
 
 
 // delete the task with the appropriate id
 let deleteTask = function(){
-  console.log('data id from delete task',this.dataset.id)
   chosenProject.tasks.splice(this.dataset.id, 1)
   renderTasksContainer()
+  console.log(projects , 'projects from deleteTask')
 }
 
 let currentTask
@@ -72,17 +75,15 @@ let renderForm = function(){
   document.querySelector('.form-container').style.display = 'flex'
   document.querySelector('.form-background').style.display = 'flex'  
   document.querySelector('.content').style.opacity = '0.2'
-  console.log(this)
-  console.log(this.id)
+  console.log(chosenProject)
   if(this.id === 'task_create_button'){
     getFormToCreateTask()
   }
   else  {
     currentTask = chosenProject.tasks[this.dataset.id]
-    console.log(this.dataset.id)
-    console.log(currentTask)
     getFormToEditTask()
   }
+  console.log(projects , 'projects from renderForm')
 }
    
 
@@ -91,6 +92,7 @@ let getFormToCreateTask = function(){
   document.querySelector('.change-button').style.display = 'none'
   document.querySelector('.adding-button').style.display = 'inline-block'
   document.querySelector('.adding-button').addEventListener('click', addNewTask)
+  console.log(projects , 'projects from getFormToCreateTask')
 }
 
 
@@ -98,29 +100,31 @@ let getFormToCreateTask = function(){
 
 // Get the Edit Form with existing inputs based on the task to edit
 let getFormToEditTask = function(){
-  //currentTask = chosenProject.tasks[this.dataset.id]
   cacheDom.titleInput.value = currentTask.name
   cacheDom.dateInput.value = currentTask.date
   cacheDom.descriptInput.value = currentTask.description
   document.querySelector('.adding-button').style.display = 'none'
   document.querySelector('.change-button').style.display = 'inline-block'
   document.querySelector('.change-button').addEventListener('click', changeTask)
-  console.log(chosenProject, 'chosenproject from render form')
+  console.log(projects , 'projects from getFormToEditTask')
 }
 
 
 
 // Get the Values from the user and create the task
-let addNewTask = function(){
-  console.log('getValue', chosenProject)    
+let addNewTask = function(){   
+  console.log(chosenProject.tasks, 'chosenproject from add new task')
   if(!cacheDom.titleInput.value || !cacheDom.dateInput.value || !cacheDom.descriptInput.value){
     alert('Please fill in completely')    
   }
   else{    
-    chosenProject.createTask(cacheDom.titleInput.value , cacheDom.dateInput.value, cacheDom.descriptInput.value)  
+    //chosenProject.createTask(cacheDom.titleInput.value , cacheDom.dateInput.value, cacheDom.descriptInput.value)  
+    let newTask = createNewTask(cacheDom.titleInput.value , cacheDom.dateInput.value, cacheDom.descriptInput.value)
+    chosenProject.tasks.push(newTask)
     renderTasksContainer()
     hideForm()
   } 
+  console.log(projects , 'projects from addNewTask') 
 }
 
 
@@ -136,6 +140,7 @@ let changeTask = function(){
     renderTasksContainer()
     hideForm()
   } 
+  console.log(projects , 'projects from changeTask')
 }
 
 
@@ -147,5 +152,6 @@ let hideForm = function(){
   document.querySelector('.form-container').style.display = 'none'
   document.querySelector('.form-background').style.display = 'none'  
   document.querySelector('.content').style.opacity = '1'
+  console.log(projects , 'projects from hideForm')
 }
 

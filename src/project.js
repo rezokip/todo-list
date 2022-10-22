@@ -1,5 +1,7 @@
 import {cacheDom, DomElement} from './cachedom.js'
 import { renderTasksHeader, renderTasksContainer,} from './task.js'
+import { saveMyProjects, projects } from "./index.js"
+
 
 let chosenProject
 
@@ -9,10 +11,15 @@ export class Project {
     this.tasks = []
     this.projectName = projectName
   }
-  createTask(name, date, description){
-    this.tasks.push({name, date, description})
-  }
+ // createTask(name, date, description){
+   // this.tasks.push({name, date, description})
+ // }
 }
+
+export let createNewTask = function(name, date, description){
+  return {name, date, description}
+}
+
 
 // get the project and show it on the Dom
 export let addNewProject = function(){
@@ -22,18 +29,20 @@ export let addNewProject = function(){
      cacheDom.addProjectInputEl.value = ''
   }
   else{alert('please enter a Name')}  
+  console.log(projects , 'projects from addNewProject')
+
 }
 
 // helper function to push the project to the projects array
 export let pushNewProject = function(){
   let newProject = new Project(cacheDom.addProjectInputEl.value)
     projects.push(newProject)
+     console.log(projects , 'projects from pushNewProject')
 }
 
 
 // render the projects from the array to the DOM
 export let renderProjects = function(){
-  console.log(projects)
   cacheDom.projectListContainerEl.textContent = '' 
   for (let project of projects){  
     let index = projects.indexOf(project) 
@@ -52,8 +61,14 @@ export let renderProjects = function(){
     newProjectIconTrash.classList.add('fa') 
     newProjectIconTrash.dataset.id = index  
     newProjectIconTrash.addEventListener('click', deleteProject)  
-  }   
+  } 
+  saveMyProjects()
+  console.log(projects , 'projects from renderProjects') 
 }
+
+
+
+
 
 
 // Function to show the Content of every individual Project based on width of the site
@@ -65,7 +80,7 @@ export let showProjectContent = function(){
   console.log('showProjectContent', chosenProject)
   renderTasksHeader()
   renderTasksContainer()
-  console.log(chosenProject)
+  console.log(projects , 'projects from showProjectContent')
 }
 
 // (if width < 648px) hide the projects and show the tasks when clicking the eye icon 
@@ -74,6 +89,7 @@ let hideProjectList = function(){
   cacheDom.taskListContainer.classList.add('show');
   cacheDom.backButton.classList.add('show')
   cacheDom.backButton.addEventListener('click', showProjectList)
+  console.log(projects , 'projects from hideProjectList')
 }
 
 // the back button goes back to the projects and hides the tasks again
@@ -81,32 +97,30 @@ let showProjectList = function(){
   cacheDom.taskListContainer.classList.remove('show');
   cacheDom.backButton.classList.remove('show')
   cacheDom.projectsContainerEl.classList.remove('hide')
+  console.log(projects , 'projects from showProjectList')
 }
 
 // splice the individual project from the array, reset the chosenProject and update the Dom with render-functions
 export let deleteProject = function(){
   projects.splice(this.dataset.id, 1)
-  chosenProject = ''
-  console.log('chosenproject', chosenProject)   
+  chosenProject = '' 
   renderProjects()
   renderTasksHeader()
   renderTasksContainer()
+  console.log(projects , 'projects from deleteProject')
 }
 
 
 // set the projects array to empty, reset the chosenProject and update the Dom with render-functions
 export let clearAllProjects = function(){
-  projects = []
+  //projects = []
+  projects.splice(0, projects.length)
   chosenProject = ''
   renderProjects()
   renderTasksHeader()
   renderTasksContainer()
+  console.log(projects , 'projects from clearAllProjects')
 }
-
-
-
-// create an empty projects array to store the project objects inside
-export let projects = []
 
 // get the add and clear buttons from the DOM and use event listener
 cacheDom.addProjectButtonEl.addEventListener('click', addNewProject)

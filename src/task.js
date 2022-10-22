@@ -3,7 +3,6 @@ import { Project } from "./project.js"
 import { cacheDom, DomElement } from "./cachedom.js"
 
 
-let currentTask
 
 // get the projects title and a "Create New Task" button and render it to the DOM Header
 export let renderTasksHeader = function(){ 
@@ -67,7 +66,7 @@ let deleteTask = function(){
   renderTasksContainer()
 }
 
-
+let currentTask
 // Render a form to create or edit a Task
 let renderForm = function(){
   document.querySelector('.form-container').style.display = 'flex'
@@ -79,8 +78,9 @@ let renderForm = function(){
     getFormToCreateTask()
   }
   else  {
+    currentTask = chosenProject.tasks[this.dataset.id]
     console.log(this.dataset.id)
-    console.log(chosenProject.tasks[this.dataset.id])
+    console.log(currentTask)
     getFormToEditTask()
   }
 }
@@ -94,9 +94,11 @@ let getFormToCreateTask = function(){
 }
 
 
+
+
 // Get the Edit Form with existing inputs based on the task to edit
 let getFormToEditTask = function(){
-  currentTask = chosenProject.tasks[this.dataset.id]
+  //currentTask = chosenProject.tasks[this.dataset.id]
   cacheDom.titleInput.value = currentTask.name
   cacheDom.dateInput.value = currentTask.date
   cacheDom.descriptInput.value = currentTask.description
@@ -121,6 +123,7 @@ let addNewTask = function(){
   } 
 }
 
+
 // Get the Values from user and edit the Task
 let changeTask = function(){
   if(!cacheDom.titleInput.value || !cacheDom.dateInput.value || !cacheDom.descriptInput.value){
@@ -134,7 +137,6 @@ let changeTask = function(){
     hideForm()
   } 
 }
-
 
 
 // After getting Inputs hide the Form and set its values to null

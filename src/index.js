@@ -1,11 +1,11 @@
 import { cacheDom } from "./cachedom"
 import { renderProjects } from "./project.js"
-import * as projectscript from "./project.js"
+//import * as projectscript from "./project.js"
 
 
 
 renderProjects()
-console.log(projectscript.projects)
+//console.log(projectscript.projects)
 
 
 /*

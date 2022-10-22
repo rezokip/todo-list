@@ -11,13 +11,11 @@ export class Project {
     this.tasks = []
     this.projectName = projectName
   }
- // createTask(name, date, description){
-   // this.tasks.push({name, date, description})
- // }
 }
 
-export let createNewTask = function(name, date, description){
-  return {name, date, description}
+// function to create a new Task
+export let createNewTask = function(name, date, description, priority){
+  return {name, date, description, priority}
 }
 
 
@@ -41,7 +39,7 @@ export let pushNewProject = function(){
 }
 
 
-// render the projects from the array to the DOM
+// render the projects from the array to the DOM and save them to the localStorage
 export let renderProjects = function(){
   cacheDom.projectListContainerEl.textContent = '' 
   for (let project of projects){  
@@ -111,9 +109,8 @@ export let deleteProject = function(){
 }
 
 
-// set the projects array to empty, reset the chosenProject and update the Dom with render-functions
+// splice all projects, reset the chosenProject and update the Dom with render-functions
 export let clearAllProjects = function(){
-  //projects = []
   projects.splice(0, projects.length)
   chosenProject = ''
   renderProjects()

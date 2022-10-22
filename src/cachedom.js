@@ -39,8 +39,11 @@ let cacheDom =(function (){
   let titleInput = document.querySelector('.title-input')
   let dateInput = document.querySelector('.date-input')
   let descriptInput = document.querySelector('.descript-input')
+  let priorityInput = document.querySelector('.priority-input')
   let formButtonContainer = document.querySelector('.form-button-container')
-  return{projectsContainerEl, projectListContainerEl, addProjectButtonEl, addProjectInputEl, clearAllEl,  taskListContainer, backButton, taskListHeader, taskListBody, titleInput, dateInput, descriptInput, formButtonContainer}
+  return{projectsContainerEl, projectListContainerEl, addProjectButtonEl, addProjectInputEl, 
+    clearAllEl,  taskListContainer, backButton, taskListHeader, taskListBody, 
+    titleInput, dateInput, descriptInput, priorityInput, formButtonContainer}
 })()
 
 export {cacheDom}

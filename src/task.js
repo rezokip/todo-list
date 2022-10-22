@@ -22,12 +22,14 @@ export let renderTasksHeader = function(){
 
 
 // get the tasks from the individual project and render every task as its own DOM Container
+// save thte tasks to the localStorage
 export let renderTasksContainer= function(){ 
   cacheDom.taskListBody.textContent=''
   if(chosenProject!=''){
     for (let task of chosenProject.tasks){
       let index = chosenProject.tasks.indexOf(task)
       let taskContainer = new DomElement('div', cacheDom.taskListBody, 'task-container')
+      taskContainer.style.backgroundColor = getPriorityColor(task.priority)
       let taskHeader = new DomElement('div', taskContainer, 'task-header')
       let taskName = new DomElement('h3', taskHeader, 'task-name')
       taskName.textContent = task.name
@@ -55,10 +57,27 @@ export let renderTasksContainer= function(){
       taskIconTrash.classList.add('fa')
       taskIconTrash.dataset.id = index
       taskIconTrash.addEventListener('click', deleteTask)
+
     }
   }
   saveMyProjects()
   console.log(projects , 'projects from renderTasksContainer')
+}
+
+
+// helper function to define color based on task priority
+let getPriorityColor = function(value){
+    switch(value) {
+    case 'low':
+      return 'rgb(72, 173, 72)'
+      break
+    case 'mid' :
+      return 'rgb(237, 237, 150)'
+      break
+    case 'high' :
+      return 'rgb(195, 112, 112)'
+      break
+  }
 }
 
 
@@ -69,12 +88,14 @@ let deleteTask = function(){
   console.log(projects , 'projects from deleteTask')
 }
 
+
 let currentTask
-// Render a form to create or edit a Task
+// Render a form to quit with back button, to create a new task or to edit an existing task.
 let renderForm = function(){
   document.querySelector('.form-container').style.display = 'flex'
   document.querySelector('.form-background').style.display = 'flex'  
   document.querySelector('.content').style.opacity = '0.2'
+  document.querySelector('.form-back-arrow').addEventListener('click', hideForm)
   console.log(chosenProject)
   if(this.id === 'task_create_button'){
     getFormToCreateTask()
@@ -103,6 +124,7 @@ let getFormToEditTask = function(){
   cacheDom.titleInput.value = currentTask.name
   cacheDom.dateInput.value = currentTask.date
   cacheDom.descriptInput.value = currentTask.description
+  cacheDom.priorityInput.value = currentTask.priority
   document.querySelector('.adding-button').style.display = 'none'
   document.querySelector('.change-button').style.display = 'inline-block'
   document.querySelector('.change-button').addEventListener('click', changeTask)
@@ -118,8 +140,8 @@ let addNewTask = function(){
     alert('Please fill in completely')    
   }
   else{    
-    //chosenProject.createTask(cacheDom.titleInput.value , cacheDom.dateInput.value, cacheDom.descriptInput.value)  
-    let newTask = createNewTask(cacheDom.titleInput.value , cacheDom.dateInput.value, cacheDom.descriptInput.value)
+    let newTask = createNewTask(cacheDom.titleInput.value , cacheDom.dateInput.value, 
+      cacheDom.descriptInput.value, cacheDom.priorityInput.value)
     chosenProject.tasks.push(newTask)
     renderTasksContainer()
     hideForm()
@@ -137,6 +159,7 @@ let changeTask = function(){
     currentTask.name = cacheDom.titleInput.value
     currentTask.date = cacheDom.dateInput.value 
     currentTask.description = cacheDom.descriptInput.value
+    currentTask.priority = cacheDom.priorityInput.value
     renderTasksContainer()
     hideForm()
   } 
@@ -144,7 +167,7 @@ let changeTask = function(){
 }
 
 
-// After getting Inputs hide the Form and set its values to null
+// Hide the Form and set its values to null
 let hideForm = function(){
   cacheDom.titleInput.value = null
   cacheDom.dateInput.value = null
